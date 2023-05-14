@@ -1,11 +1,15 @@
 package br.com.cademeurango.cade_meu_rango_api.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
+
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,4 +36,10 @@ public class ReceitaController {
         BeanUtils.copyProperties(receitaDto, receitaModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(receitaService.save(receitaModel));
     } 
+
+
+    @GetMapping
+    public ResponseEntity<List<ReceitaModel>>getAllReceitas(){
+        return ResponseEntity.status(HttpStatus.OK).body(receitaService.findAll());
+    }
 }

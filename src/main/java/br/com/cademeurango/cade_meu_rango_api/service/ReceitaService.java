@@ -1,5 +1,6 @@
 package br.com.cademeurango.cade_meu_rango_api.service;
 
+import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -19,5 +20,9 @@ public class ReceitaService {
     @Transactional
     public ReceitaModel save(ReceitaModel receitaModel) {
         return receitaRepository.save(receitaModel);
+    }
+
+    public List<ReceitaModel> findAll() {
+        return receitaRepository.findAll();
     }
 }
