@@ -1,7 +1,6 @@
 package br.com.cademeurango.cade_meu_rango_api.model;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +16,7 @@ public class ReceitaModel implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private int id;
 
     @Column(nullable = false, length = 45)
     private String titulo;
@@ -29,11 +28,11 @@ public class ReceitaModel implements Serializable{
     private String imagem;
 
     
-    public UUID getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
