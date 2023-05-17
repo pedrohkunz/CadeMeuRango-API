@@ -14,7 +14,7 @@ public class ReceitaDto {
     private String descricao;
 
     @NotBlank
-    @Size(max = 100)
+    @Size(max = 300)
     private String imagem;
 
 

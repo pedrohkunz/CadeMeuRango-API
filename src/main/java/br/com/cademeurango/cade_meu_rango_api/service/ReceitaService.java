@@ -1,6 +1,8 @@
 package br.com.cademeurango.cade_meu_rango_api.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -25,4 +27,14 @@ public class ReceitaService {
     public List<ReceitaModel> findAll() {
         return receitaRepository.findAll();
     }
+
+    public Optional<ReceitaModel> findById(int id){
+        return receitaRepository.findById(id);
+    }
+
+    public void deleteById(int id) {
+        receitaRepository.deleteById(id);
+    }
+
+
 }

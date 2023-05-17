@@ -24,7 +24,7 @@ public class ReceitaModel implements Serializable{
     @Column(nullable = false, length = 450)
     private String descricao;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 300)
     private String imagem;
 
     
