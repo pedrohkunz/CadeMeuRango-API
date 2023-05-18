@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,13 +61,25 @@ public class ReceitaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable int id) {
         Optional<ReceitaModel> receita = receitaService.findById(id);
+        ErrorModel vazio = new ErrorModel("Esta receita não existe!");
         if (receita.isPresent()) {
             receitaService.deleteById(id);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("Receita excluída com sucesso");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Receita não encontrada");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(vazio);
         }
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<?> update(@PathVariable int id){
+        Optional<ReceitaModel> receita = receitaService.findById(id);
+        ErrorModel vazio = new ErrorModel("Esta receita não existe!");
+        if (!receita.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(vazio);
+        } else{
+            ReceitaModel.setTitulo()
+        }
+
+    }
 }
 
