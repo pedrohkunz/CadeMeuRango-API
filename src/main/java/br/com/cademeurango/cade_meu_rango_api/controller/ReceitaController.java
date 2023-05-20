@@ -1,5 +1,6 @@
 package br.com.cademeurango.cade_meu_rango_api.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.cademeurango.cade_meu_rango_api.dtos.IngredienteDto;
 import br.com.cademeurango.cade_meu_rango_api.dtos.ReceitaDto;
 import br.com.cademeurango.cade_meu_rango_api.model.ErrorModel;
+import br.com.cademeurango.cade_meu_rango_api.model.IngredienteModel;
 import br.com.cademeurango.cade_meu_rango_api.model.ReceitaModel;
 import br.com.cademeurango.cade_meu_rango_api.service.ReceitaService;
 
@@ -35,11 +38,23 @@ public class ReceitaController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveReceita(@RequestBody @Valid ReceitaDto receitaDto){
+    public ResponseEntity<Object> saveReceita(@RequestBody @Valid ReceitaDto receitaDto) {
         var receitaModel = new ReceitaModel();
         BeanUtils.copyProperties(receitaDto, receitaModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(receitaService.save(receitaModel));
-    } 
+    
+        List<IngredienteModel> ingredientesModel = new ArrayList<>();
+        for (IngredienteDto ingredienteDto : receitaDto.getIngredientes()) {
+            var ingredienteModel = new IngredienteModel();
+            BeanUtils.copyProperties(ingredienteDto, ingredienteModel);
+            ingredientesModel.add(ingredienteModel);
+        }
+    
+        receitaModel.setIngredientes(ingredientesModel);
+    
+        ReceitaModel savedReceita = receitaService.save(receitaModel);
+    
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedReceita);
+    }
 
     @GetMapping
     public ResponseEntity<List<ReceitaModel>>getAllReceitas(){
@@ -54,8 +69,7 @@ public class ReceitaController {
                 return ResponseEntity.status(HttpStatus.OK).body(receita);
             } else{
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(isNull);
-            }
-            
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -84,7 +98,6 @@ public class ReceitaController {
             receitaModel.setImagem(receitaDto.getImagem());
             return ResponseEntity.status(HttpStatus.OK).body(receitaService.save(receitaModel));
         }
-
     }
     
 }

@@ -1,18 +1,20 @@
 package br.com.cademeurango.cade_meu_rango_api.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name= "receitas")
 public class ReceitaModel implements Serializable{
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,6 +28,9 @@ public class ReceitaModel implements Serializable{
 
     @Column(nullable = false, length = 300)
     private String imagem;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "receita")
+    private List<IngredienteModel> ingredientes;
 
     
     public int getId() {
@@ -59,5 +64,14 @@ public class ReceitaModel implements Serializable{
     public void setImagem(String imagem) {
         this.imagem = imagem;
     }
+
+    public List<IngredienteModel> getIngredientes() {
+        return this.ingredientes;
+    }
+
+    public void setIngredientes(List<IngredienteModel> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+    
 
 }

@@ -1,12 +1,15 @@
 package br.com.cademeurango.cade_meu_rango_api.dtos;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 public class ReceitaDto {
     
     @NotBlank
-    @Size(max = 45)
+    @Size(max = 60)
     private String titulo;
 
     @NotBlank
@@ -16,6 +19,9 @@ public class ReceitaDto {
     @NotBlank
     @Size(max = 300)
     private String imagem;
+
+    @NotEmpty
+    private List<IngredienteDto> ingredientes;
 
 
     public String getTitulo() {
@@ -40,6 +46,14 @@ public class ReceitaDto {
 
     public void setImagem(String imagem) {
         this.imagem = imagem;
+    }
+
+    public List<IngredienteDto> getIngredientes() {
+        return this.ingredientes;
+    }
+
+    public void setIngredientes(List<IngredienteDto> ingredientes) {
+        this.ingredientes = ingredientes;
     }
 
 }
