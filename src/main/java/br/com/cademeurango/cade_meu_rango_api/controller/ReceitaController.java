@@ -70,16 +70,22 @@ public class ReceitaController {
         }
     }
 
+    
     @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable int id){
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody @Valid ReceitaDto receitaDto){
         Optional<ReceitaModel> receita = receitaService.findById(id);
         ErrorModel vazio = new ErrorModel("Esta receita não existe!");
         if (!receita.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(vazio);
         } else{
-            ReceitaModel.setTitulo()
+            var receitaModel = receita.get();
+            receitaModel.setTitulo(receitaDto.getTitulo());
+            receitaModel.setDescricao(receitaDto.getDescricao());
+            receitaModel.setImagem(receitaDto.getImagem());
+            return ResponseEntity.status(HttpStatus.OK).body(receitaService.save(receitaModel));
         }
 
     }
+    
 }
 
