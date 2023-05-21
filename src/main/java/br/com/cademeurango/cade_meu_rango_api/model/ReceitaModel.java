@@ -32,6 +32,9 @@ public class ReceitaModel implements Serializable{
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "receita")
     private List<IngredienteModel> ingredientes;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "receita")
+    private List<ModoDePreparoModel> modoDePreparo;
+
     
     public int getId() {
         return this.id;
@@ -72,6 +75,13 @@ public class ReceitaModel implements Serializable{
     public void setIngredientes(List<IngredienteModel> ingredientes) {
         this.ingredientes = ingredientes;
     }
-    
 
+    public List<ModoDePreparoModel> getModoDePreparo() {
+        return modoDePreparo;
+    }
+
+    public void setModoDePreparo(List<ModoDePreparoModel> modoDePreparo) {
+        this.modoDePreparo = modoDePreparo;
+    }
+    
 }

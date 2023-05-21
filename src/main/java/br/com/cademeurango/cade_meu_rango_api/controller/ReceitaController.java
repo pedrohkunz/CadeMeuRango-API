@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cademeurango.cade_meu_rango_api.dtos.IngredienteDto;
+import br.com.cademeurango.cade_meu_rango_api.dtos.ModoDePreparoDto;
 import br.com.cademeurango.cade_meu_rango_api.dtos.ReceitaDto;
 import br.com.cademeurango.cade_meu_rango_api.model.ErrorModel;
 import br.com.cademeurango.cade_meu_rango_api.model.IngredienteModel;
+import br.com.cademeurango.cade_meu_rango_api.model.ModoDePreparoModel;
 import br.com.cademeurango.cade_meu_rango_api.model.ReceitaModel;
 import br.com.cademeurango.cade_meu_rango_api.service.ReceitaService;
 
@@ -37,29 +39,41 @@ public class ReceitaController {
         this.receitaService = receitaService;
     }
 
+
     @PostMapping
     public ResponseEntity<Object> saveReceita(@RequestBody @Valid ReceitaDto receitaDto) {
         var receitaModel = new ReceitaModel();
         BeanUtils.copyProperties(receitaDto, receitaModel);
-    
+
+        //Armazena os ingredientes
         List<IngredienteModel> ingredientesModel = new ArrayList<>();
-        for (IngredienteDto ingredienteDto : receitaDto.getIngredientes()) {
-            var ingredienteModel = new IngredienteModel();
-            BeanUtils.copyProperties(ingredienteDto, ingredienteModel);
-            ingredientesModel.add(ingredienteModel);
-        }
-    
+            for (IngredienteDto ingredienteDto : receitaDto.getIngredientes()) {
+                var ingredienteModel = new IngredienteModel();
+                BeanUtils.copyProperties(ingredienteDto, ingredienteModel);
+                ingredientesModel.add(ingredienteModel);
+            }
         receitaModel.setIngredientes(ingredientesModel);
-    
+
+        //Armazena os modos de preparo
+        List<ModoDePreparoModel> modoDePreparoModel = new ArrayList<>();
+            for (ModoDePreparoDto modoDePreparoDto : receitaDto.getModoDePreparo()) {
+                var preparo = new ModoDePreparoModel();
+                BeanUtils.copyProperties(modoDePreparoDto, preparo);
+                modoDePreparoModel.add(preparo);
+            }
+        receitaModel.setModoDePreparo(modoDePreparoModel);
+        
+
         ReceitaModel savedReceita = receitaService.save(receitaModel);
-    
         return ResponseEntity.status(HttpStatus.CREATED).body(savedReceita);
     }
+
 
     @GetMapping
     public ResponseEntity<List<ReceitaModel>>getAllReceitas(){
         return ResponseEntity.status(HttpStatus.OK).body(receitaService.findAll());
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getReceitaById(@PathVariable int id){
@@ -72,6 +86,7 @@ public class ReceitaController {
         }
     }
 
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable int id) {
         Optional<ReceitaModel> receita = receitaService.findById(id);
@@ -84,18 +99,35 @@ public class ReceitaController {
         }
     }
 
-    
     @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody @Valid ReceitaDto receitaDto){
-        Optional<ReceitaModel> receita = receitaService.findById(id);
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody @Valid ReceitaDto receitaDto) {
+        Optional<ReceitaModel> receitaOptional = receitaService.findById(id);
         ErrorModel vazio = new ErrorModel("Esta receita não existe!");
-        if (!receita.isPresent()) {
+        
+        if (!receitaOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(vazio);
-        } else{
-            var receitaModel = receita.get();
+        } else {
+            ReceitaModel receitaModel = receitaOptional.get();
             receitaModel.setTitulo(receitaDto.getTitulo());
             receitaModel.setDescricao(receitaDto.getDescricao());
             receitaModel.setImagem(receitaDto.getImagem());
+            
+            List<IngredienteModel> ingredientesModels = new ArrayList<>();
+            for (IngredienteDto ingredienteDto : receitaDto.getIngredientes()) {
+                IngredienteModel ingredienteModel = new IngredienteModel();
+                BeanUtils.copyProperties(ingredienteDto, ingredienteModel);
+                ingredientesModels.add(ingredienteModel);
+            }
+            receitaModel.setIngredientes(ingredientesModels);
+            
+            List<ModoDePreparoModel> modoDePreparoModels = new ArrayList<>();
+            for (ModoDePreparoDto modoDePreparoDto : receitaDto.getModoDePreparo()) {
+                ModoDePreparoModel modoDePreparoModel = new ModoDePreparoModel();
+                BeanUtils.copyProperties(modoDePreparoDto, modoDePreparoModel);
+                modoDePreparoModels.add(modoDePreparoModel);
+            }
+            receitaModel.setModoDePreparo(modoDePreparoModels);
+            
             return ResponseEntity.status(HttpStatus.OK).body(receitaService.save(receitaModel));
         }
     }

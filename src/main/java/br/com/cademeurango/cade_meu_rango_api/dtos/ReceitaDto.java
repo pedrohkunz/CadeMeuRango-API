@@ -23,7 +23,10 @@ public class ReceitaDto {
     @NotEmpty
     private List<IngredienteDto> ingredientes;
 
+    @NotEmpty
+    private List<ModoDePreparoDto> modoDePreparo;
 
+   
     public String getTitulo() {
         return this.titulo;
     }
@@ -54,6 +57,14 @@ public class ReceitaDto {
 
     public void setIngredientes(List<IngredienteDto> ingredientes) {
         this.ingredientes = ingredientes;
+    }
+
+    public List<ModoDePreparoDto> getModoDePreparo() {
+        return modoDePreparo;
+    }
+
+    public void setModoDePreparo(List<ModoDePreparoDto> modoDePreparo) {
+        this.modoDePreparo = modoDePreparo;
     }
 
 }
