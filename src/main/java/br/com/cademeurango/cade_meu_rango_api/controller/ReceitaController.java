@@ -63,7 +63,6 @@ public class ReceitaController {
             }
         receitaModel.setModoDePreparo(modoDePreparoModel);
         
-
         ReceitaModel savedReceita = receitaService.save(receitaModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedReceita);
     }
@@ -112,6 +111,7 @@ public class ReceitaController {
             receitaModel.setDescricao(receitaDto.getDescricao());
             receitaModel.setImagem(receitaDto.getImagem());
             
+            //Armazena os ingredientes
             List<IngredienteModel> ingredientesModels = new ArrayList<>();
             for (IngredienteDto ingredienteDto : receitaDto.getIngredientes()) {
                 IngredienteModel ingredienteModel = new IngredienteModel();
@@ -120,6 +120,7 @@ public class ReceitaController {
             }
             receitaModel.setIngredientes(ingredientesModels);
             
+            //Armazena os modos de preparo
             List<ModoDePreparoModel> modoDePreparoModels = new ArrayList<>();
             for (ModoDePreparoDto modoDePreparoDto : receitaDto.getModoDePreparo()) {
                 ModoDePreparoModel modoDePreparoModel = new ModoDePreparoModel();

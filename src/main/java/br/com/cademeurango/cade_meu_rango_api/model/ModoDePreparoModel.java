@@ -17,19 +17,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "modo_de_preparo")
 public class ModoDePreparoModel implements Serializable{
     
+    //Chave primária
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    //Atributo
     @Column(nullable = false, length = 250)
     private String descricao;
 
+    //Chave estrangeira
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "receita_id")
     private ReceitaModel receita;
 
 
+    //Getters e Setters
     public int getId() {
         return this.id;
     }

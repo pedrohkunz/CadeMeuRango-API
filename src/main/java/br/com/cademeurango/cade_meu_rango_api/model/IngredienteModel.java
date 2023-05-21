@@ -17,10 +17,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "ingredientes")
 public class IngredienteModel implements Serializable{
 
+    //Chave primária
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    //Atributos
     @Column(nullable = false, length = 45)
     private String nome;
 
@@ -30,11 +32,14 @@ public class IngredienteModel implements Serializable{
     @Column(nullable = false)
     private byte posicao;
 
+    //Chave estrangeira
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "receita_id")
     private ReceitaModel receita;
 
+
+    //Getters e Setters
     public int getId() {
         return this.id;
     }

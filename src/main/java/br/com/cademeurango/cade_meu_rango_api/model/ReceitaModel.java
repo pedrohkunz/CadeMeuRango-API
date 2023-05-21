@@ -16,10 +16,12 @@ import javax.persistence.Table;
 @Table(name= "receitas")
 public class ReceitaModel implements Serializable{
 
+    //Chave primária
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    //Atributos
     @Column(nullable = false, length = 45)
     private String titulo;
 
@@ -29,13 +31,14 @@ public class ReceitaModel implements Serializable{
     @Column(nullable = false, length = 300)
     private String imagem;
 
+    //Relacinamento 1:N
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "receita")
     private List<IngredienteModel> ingredientes;
-
+     //Relacinamento 1:N
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "receita")
     private List<ModoDePreparoModel> modoDePreparo;
 
-    
+    //Getters e Setters
     public int getId() {
         return this.id;
     }

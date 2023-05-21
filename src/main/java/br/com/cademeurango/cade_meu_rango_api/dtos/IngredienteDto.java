@@ -5,6 +5,7 @@ import javax.validation.constraints.Size;
 
 public class IngredienteDto {
 
+    //Atributos
     @NotBlank
     @Size(max = 60)
     private String nome;
@@ -17,6 +18,7 @@ public class IngredienteDto {
     private byte posicao;
 
 
+    //Getters e Setters
     public String getNome() {
         return this.nome;
     }

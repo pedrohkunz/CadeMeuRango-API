@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 
 public class ReceitaDto {
     
+    //Atributos
     @NotBlank
     @Size(max = 60)
     private String titulo;
@@ -27,6 +28,7 @@ public class ReceitaDto {
     private List<ModoDePreparoDto> modoDePreparo;
 
    
+    //Getters e Setters
     public String getTitulo() {
         return this.titulo;
     }
