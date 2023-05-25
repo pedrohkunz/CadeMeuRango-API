@@ -65,4 +65,11 @@ public class ReceitaService {
         receitaRepository.deleteById(id);
     }
 
+    public void deleteIngredientes(List<IngredienteModel> ingredientes){
+        for(IngredienteModel ingrediente : ingredientes){
+            ingredienteRepository.delete(ingrediente);
+            System.out.println("deletado " + ingrediente.getId());
+        }
+    }
+
 }

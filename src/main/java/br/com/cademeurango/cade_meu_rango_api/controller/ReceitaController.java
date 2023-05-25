@@ -111,6 +111,8 @@ public class ReceitaController {
             receitaModel.setDescricao(receitaDto.getDescricao());
             receitaModel.setImagem(receitaDto.getImagem());
             
+            receitaService.deleteIngredientes(receitaModel.getIngredientes());
+            
             //Armazena os ingredientes
             List<IngredienteModel> ingredientesModels = new ArrayList<>();
             for (IngredienteDto ingredienteDto : receitaDto.getIngredientes()) {
