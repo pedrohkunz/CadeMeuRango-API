@@ -19,7 +19,7 @@ public class ModoDePreparoModel implements Serializable{
     
     //Chave primária
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     //Atributo
