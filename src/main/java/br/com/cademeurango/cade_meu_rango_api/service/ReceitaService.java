@@ -33,19 +33,36 @@ public class ReceitaService {
     public ReceitaModel save(ReceitaModel receitaModel) {
         ReceitaModel receita = receitaRepository.save(receitaModel);
     
-        // Armazena ingredientes
+        // Exclui os ingredientes antigos
         List<IngredienteModel> ingredientes = receitaModel.getIngredientes();
-            for (IngredienteModel ingrediente : ingredientes) {
-                ingrediente.setReceita(receita);
+        List<IngredienteModel> ingredientesAntigos = ingredienteRepository.findByReceita(receita);
+        for (IngredienteModel ingredienteAntigo : ingredientesAntigos) {
+            if (!ingredientes.contains(ingredienteAntigo)) {
+                ingredienteRepository.deleteById(ingredienteAntigo.getId());
             }
-            ingredienteRepository.saveAll(ingredientes);
+        }
     
-        // Armazena ModoDePreparo
-        List<ModoDePreparoModel> modoDePreparo = receitaModel.getModoDePreparo();
-            for (ModoDePreparoModel preparo : modoDePreparo) {
-                preparo.setReceita(receita);
+        // Atualiza os ingredientes
+        for(IngredienteModel ingrediente : ingredientes){
+            ingrediente.setReceita(receita);
+        }
+        ingredienteRepository.saveAll(ingredientes);
+    
+
+        // Exclui os modos de preparo
+        List<ModoDePreparoModel> modosDePreparos = receitaModel.getModoDePreparo();
+        List<ModoDePreparoModel> modosDePreparoAntigos = modoDePreparoRepository.findByReceita(receita);
+        for(ModoDePreparoModel modoDePreparoAntigo : modosDePreparoAntigos){
+            if(!modosDePreparos.contains(modoDePreparoAntigo)) {
+                modoDePreparoRepository.deleteById(modoDePreparoAntigo.getId());
             }
-            modoDePreparoRepository.saveAll(modoDePreparo);
+        }
+
+        // Atualiza os modos de preparo
+        for(ModoDePreparoModel modoDePreparo : modosDePreparos){
+            modoDePreparo.setReceita(receita);
+        }
+        modoDePreparoRepository.saveAll(modosDePreparos);
     
         return receita;
     }
@@ -65,11 +82,6 @@ public class ReceitaService {
         receitaRepository.deleteById(id);
     }
 
-    public void deleteIngredientes(List<IngredienteModel> ingredientes){
-        for(IngredienteModel ingrediente : ingredientes){
-            ingredienteRepository.delete(ingrediente);
-            System.out.println("deletado " + ingrediente.getId());
-        }
-    }
+    
 
 }

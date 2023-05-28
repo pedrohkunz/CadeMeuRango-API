@@ -98,11 +98,11 @@ public class ReceitaController {
         }
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody @Valid ReceitaDto receitaDto) {
         Optional<ReceitaModel> receitaOptional = receitaService.findById(id);
         ErrorModel vazio = new ErrorModel("Esta receita não existe!");
-        
+    
         if (!receitaOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(vazio);
         } else {
@@ -110,27 +110,27 @@ public class ReceitaController {
             receitaModel.setTitulo(receitaDto.getTitulo());
             receitaModel.setDescricao(receitaDto.getDescricao());
             receitaModel.setImagem(receitaDto.getImagem());
-            
-            receitaService.deleteIngredientes(receitaModel.getIngredientes());
-            
-            //Armazena os ingredientes
+    
+            // Atualiza a lista de ingredientes
             List<IngredienteModel> ingredientesModels = new ArrayList<>();
             for (IngredienteDto ingredienteDto : receitaDto.getIngredientes()) {
                 IngredienteModel ingredienteModel = new IngredienteModel();
                 BeanUtils.copyProperties(ingredienteDto, ingredienteModel);
+                ingredienteModel.setReceita(receitaModel); 
                 ingredientesModels.add(ingredienteModel);
             }
             receitaModel.setIngredientes(ingredientesModels);
-            
-            //Armazena os modos de preparo
+    
+            // Atualiza a lista de modos de preparo
             List<ModoDePreparoModel> modoDePreparoModels = new ArrayList<>();
             for (ModoDePreparoDto modoDePreparoDto : receitaDto.getModoDePreparo()) {
                 ModoDePreparoModel modoDePreparoModel = new ModoDePreparoModel();
                 BeanUtils.copyProperties(modoDePreparoDto, modoDePreparoModel);
+                modoDePreparoModel.setReceita(receitaModel); 
                 modoDePreparoModels.add(modoDePreparoModel);
             }
             receitaModel.setModoDePreparo(modoDePreparoModels);
-            
+    
             return ResponseEntity.status(HttpStatus.OK).body(receitaService.save(receitaModel));
         }
     }
