@@ -13,7 +13,7 @@ public class DicaDto {
     @Size(max = 800)
     private String descricao;
 
-
+    //Getters e Setters
     public String getTitulo() {
         return this.titulo;
     }

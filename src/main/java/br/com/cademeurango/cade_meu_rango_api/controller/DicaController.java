@@ -74,7 +74,7 @@ public class DicaController {
     @PutMapping("{id}")
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody @Valid DicaDto dicaDto) {
         Optional<DicaModel> dicaOptional = dicaService.findById(id);
-        ErrorModel vazio = new ErrorModel("Esta receita não existe!");
+        ErrorModel vazio = new ErrorModel("Esta dica não existe!");
         
         if (!dicaOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(vazio);
