@@ -1,6 +1,7 @@
 package br.com.cademeurango.cade_meu_rango_api.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +26,11 @@ public class DicaModel implements Serializable{
     @Column(nullable = false, length = 800)
     private String descricao;
 
+    @Column(nullable = false)
+    private LocalDate data;
+
     //Getters e Setters
+
     public int getId() {
         return this.id;
     }
@@ -49,5 +54,14 @@ public class DicaModel implements Serializable{
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public LocalDate getData() {
+        return this.data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+    
 
 }

@@ -1,5 +1,7 @@
 package br.com.cademeurango.cade_meu_rango_api.controller;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +40,7 @@ public class DicaController {
     public ResponseEntity<Object> saveDica(@RequestBody @Valid DicaDto dicaDto){
         var dicaModel = new DicaModel();
         BeanUtils.copyProperties(dicaDto, dicaModel);
-
+        dicaModel.setData(LocalDate.now(ZoneId.of("UTC")));
         DicaModel savedDica = dicaService.save(dicaModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDica);
     }
